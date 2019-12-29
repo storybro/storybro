@@ -1,0 +1,108 @@
+settings:
+
+  fantasy:
+    description: "living in the kingdom of Larion. "
+    characters:
+
+      noble:
+        prompts: ["You are awakened by one of your servants who tells you that your keep is under attack. You look out the window and see"]
+
+        item1: "pouch of gold"
+        item2: "small dagger"
+
+      knight:
+        prompts: ["You are on a quest to defeat the evil dragon of Larion. You've heard he lives up at the north of the kingdom. You set on the path to defeat him and walk into a dark forest. As you enter the forest you see"]
+
+        item1: "steel longsword"
+        item2: "wooden shield"
+
+      wizard:
+        prompts: ["You finish your long journey and finally arrive at the ruin you've been looking for. You look around and see"]
+
+        item1: "staff"
+        item2: "spellbook"
+        
+      peasant:
+        prompts: ["You wake up and begin working in the fields. You see"]
+
+        item1: "pitchfork"
+        item2: "nothing else"
+
+      rogue:
+        prompts: ["You walk down the city street looking for somewhere to steal from. You look around and see"]
+
+        item1: "long steel dagger"
+        item2: "length of rope"
+
+  apocalyptic:
+    description: " trying to survive in a post apocalyptic world by scavenging among the ruins of what is left. "
+
+    characters:
+    
+      scavenger:
+        prompts: ["You walk for two hours and take a break. You've left your town in search of food. You look around and see "]
+
+        item1: "rusty knife"
+        item2: "canteen"
+
+      mutant:
+        prompts: ["In the colony you were born in, your strange condition was considered a curse, and you has been banished since you were sixteen. After a long journey, you find an abandoned bunker. You see"]
+
+        item1: "scales on your face"
+        item2: "third leg"
+    
+      headhunter:
+        prompts: ["You are driving your rusty motorbike. You go past many abandoned bunkers. You arrive at a colony and stop the engine. You take a look around and see"]
+
+        item1: "binoculars"
+        item2: "crappy shotgun"
+
+  mystery:
+    description: "living in Chicago. "
+    characters:
+
+      patient:
+        prompts: ["You wake up in an old rundown hospital with no memory of how you got there. You take a look around the room and see"]
+
+        item1: "hospital bracelet"
+        item2: "pack of bandages"
+
+      detective:
+        prompts: ["You enter the forest where you believe the criminal you're searching for fled to. Suddenly"]
+
+        item1: "pistol"
+        item2: "police badge"
+
+      spy:
+        prompts: ["You listen to the Russian diplomats and hear them discussing"]
+
+        item1: "concealed pistol"
+        item2: "syringe of poison"
+
+  zombies:
+    description: " trying to survive in a world filled with infected zombies everywhere. "
+
+    characters:
+      soldier:
+        prompts: ["Your unit lost a lot of men when the infection broke, but you've managed to keep the small town
+        you're stationed near safe for now. You look over the town and think"]
+
+        item1: "automatic rifle"
+        item2: "grenade"
+
+      survivor:
+        prompts: ["You have managed to survive several months avoiding zombies and scavenging food.
+       You cautiously enter a rundown store and hear"]
+
+        item1: "pistol"
+        item2: "backpack"
+
+      scientist:
+        prompts: ["You pound your fist on the table, angry that you still haven't found the cure to the infection. You turn to your assistant and"]
+
+        item1: "backpack"
+        item2: "solar powered tablet"
+
+
+
+

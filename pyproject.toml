@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "storybro"
+version = "0.1.0"
+description = "A GPT-2 based AI assisted storytelling tool"
+
+license = "MIT"
+
+authors = [
+    "Nick Walton <unknown@example.com>",
+    "Dustin Lacewell <dlacewell@gmail.com>",
+]
+
+readme = 'README.md'  # Markdown files are supported
+
+repository = "https://github.com/storybro/storybro"
+homepage = "https://github.com/storybro/storybro"
+
+keywords = ['gpt2', 'gpt-2']
+
+[tool.poetry.dependencies]
+python = "3.6.8"  # Compatible python versions must be declared here
+google-cloud-storage = "1.23.0"
+gsutil = "4.46"
+numpy = "1.18.0"
+profanityfilter = "2.0.6"
+pyyaml = "5.2"
+regex = "2019.12.20"
+func_timeout = "4.3.5"
+playsound = "1.2.2"
+tracery = "0.1.1"
+cryptography = "2.8"
+click = "7.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
+pytest-cov = "^2.4"
+
+[tool.poetry.scripts]
+storybro = 'storybro:main'
