@@ -11,7 +11,7 @@ from storybro.models import models_at_path, flatten_model
 @click.argument('name')
 @click.pass_obj
 def flatten(config, name):
-    '''List models available for download'''
+    '''Bring all files of a model to the root'''
     installed = models_at_path(config.models_path)
 
     if name not in installed:
