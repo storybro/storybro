@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+export DEPLOY_ENV=true
+
+./python-version-check
+./install-system-packages
+./install-python-packages
+./install-storybro

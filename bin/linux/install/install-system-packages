@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+PACKAGES=(aria2 git unzip wget)
+
+is_command() {
+	command -v "${@}" > /dev/null
+}
+
+system_package_install() {
+	PACKAGES=(aria2 git unzip wget)
+	if is_command 'apt-get'; then
+		apt-get install ${PACKAGES[@]}
+	elif is_command 'brew'; then
+		brew install ${PACKAGES[@]}
+	elif is_command 'yum'; then
+		yum install ${PACKAGES[@]}
+	elif is_command 'dnf'; then
+		dnf install ${PACKAGES[@]}
+	elif is_command 'pacman'; then
+		pacman -S ${PACKAGES[@]}
+	elif is_command 'apk'; then
+		apk --update add ${PACKAGES[@]}
+	else
+		echo "You do not seem to be using a supported package manager."
+		echo "Please make sure ${PACKAGES[@]} are installed then press [ENTER]"
+		read NOT_USED
+	fi
+}
+
+system_package_install

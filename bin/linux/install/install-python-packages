@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+install_python_dependencies() {
+  pip install --upgrade setuptools
+  pip install "tensorflow==1.15"
+  pip install "poetry==1.0.0"
+
+  USE_VENV=${DEPLOY_ENV:-}
+  if [[ -z "$USE_ENV" ]]; then
+    poetry config virtualenvs.create false
+  else
+    poetry config virtualenvs.create true
+  fi
+
+  poetry install --no-root
+}
+
+install_python_dependencies

@@ -1,16 +1,4 @@
-import click
-
-@click.group()
-def cli():
-    pass
-
-@cli.command()
-def download_model():
-    click.echo("Downloading model...")
-
-@cli.command()
-def play():
-    click.echo("Generating story...")
+from .cli import ep
 
 def main():
-    cli()
+    ep()
