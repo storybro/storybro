@@ -8,8 +8,10 @@ run python-version-check
 copy ./bin/linux/install/install-system-packages /bin/install-system-packages
 run install-system-packages
 
-copy pyproject.toml pyproject.toml
+run pip install tensorflow==1.15
+
 run touch README.md
+copy pyproject.toml pyproject.toml
 
 copy ./bin/linux/install/install-python-packages /bin/install-python-packages
 run install-python-packages
