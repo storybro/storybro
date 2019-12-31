@@ -2,6 +2,8 @@
 
 Storybro is a community maintained fork of [AI Dungeon 2](https://github.com/AIDungeon/AIDungeon) by [Nick Walton](https://github.com/nickwalton).
 
+Visit our Wiki here: [Storybro wiki](https://github.com/storybro/storybro/wiki)
+
 Read more about AI Dungeon 2 and how it was built [here](https://pcc.cs.byu.edu/2019/11/21/ai-dungeon-2-creating-infinitely-generated-text-adventures-with-deep-learning-language-models/).
 
 This fork aims to:
