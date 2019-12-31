@@ -5,11 +5,13 @@ from appdirs import user_data_dir
 import click
 import click_config_file
 
+from storybro.models import ModelManager
 from .commands.models import models
 from .commands.play import play
 
 class Config:
     model_registry = None
+    model_manager = None
     models_path = None
 
 data_dir = user_data_dir("storybro", "storybro")
@@ -28,6 +30,7 @@ def cli(ctx, model_registry, models_path, grammars_path):
     Config.model_registry = model_registry
     Config.models_path = models_path
     Config.grammars_path = grammars_path
+    Config.model_manager = ModelManager(models_path)
     ctx.obj = Config
 
 def ep():
