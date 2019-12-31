@@ -1,13 +1,11 @@
 import os
-import sys
 import shutil
 
 import click
 
-from sh import aria2c
-
-from storybro.registry import fetch_model_registry
 from storybro.models import models_at_path
+from storybro.registry import fetch_model_registry
+
 
 @click.command()
 @click.argument('name')
@@ -34,14 +32,15 @@ def get(config, name, torrent, force):
             shutil.rmtree(os.path.join(config.models_path, name))
             click.echo(f"Deleted local model `{name}`. Re-downloading.")
 
-    aria2c(
-        "--max-connection-per-server", 16,
-        "--bt-max-peers", 500,
-        "--seed-time", 0,
-        "--summary-interval", 15,
+    click.echo(f"Downloading torrent: {torrent}")
+
+    os.execlp('aria2c', 'aria2c',
+        "--max-connection-per-server", "16",
+        "--bt-max-peers", "500",
+        "--seed-time", "0",
+        "--summary-interval", "15",
         "--disable-ipv6",
-        "--split", 64,
+        "--split", "64",
         "-d", config.models_path,
         torrent,
-        _out=sys.stdout
     )

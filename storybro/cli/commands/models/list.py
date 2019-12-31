@@ -1,7 +1,4 @@
 import click
-import click_config_file
-
-from sh import aria2c
 
 from storybro.registry import fetch_model_registry
 from storybro.models import models_at_path

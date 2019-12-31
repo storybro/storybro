@@ -1,11 +1,9 @@
 import os
 
 import click
-import click_config_file
-
-from sh import aria2c
 
 from storybro.models import models_at_path, flatten_model
+
 
 @click.command()
 @click.argument('name')
