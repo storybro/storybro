@@ -30,10 +30,6 @@
     "uncommon_color" : ["green", "brown", "green", "brown", "golden", "silver", "scarlet"],
     "weapon" : ["staff", "sword", "spear", "flail", "mace", "dagger", "bow", "arrow", "lance"],
     "relative" : ["father", "mother", "brother", "sister", "cousin", "uncle", "aunt"],
-
-
-
-
     "noble_item" : ["pouch of gold", "pouch of silver", "small dagger", "fine cane", "house seal", "narrow rapier", "vial of perfume", "pendant", "silk shirt", "leather purse", "map of the #realm#", "pair of spectacles", "land deed", "comb"],
     "subordinate" : ["servant", "cook", "laborer", "groundskeeper", "housekeeper", "attendant", "serf", "hireling"],
     "nice_home" : ["keep", "castle", "manor", "mansion", "abbey", "estate", "tower"],
@@ -41,7 +37,6 @@
     "a_the" : ["a", "the", "your"],
     "attacked" : ["under attack", "being invaded", "in danger", "being surrounded", "being sieged"],
     "noble_one" : ["One morning, you are awakened by one of your #subordinate.s#. #he_she.capitalize# tells you that your #nice_home# is #attacked#. You look out #a_the# window and see"],
-
     "element" : ["fire", "water", "earth", "air"],
     "more_element" : ["the underworld", "the sea", "the heavens"],
     "celestial" : ["the sun", "the moon", "the stars"],
@@ -62,7 +57,6 @@
     "festival" : ["#season# festival", "festival of the #deity#", "festival of the #animal#", "festival of the year of the #animal#"],
     "season_opt" : ["#season# ", ""],
     "noble_two" : "Throughout the #realm# it is the #festival#. To celebrate, you are feasting #noble_location#. #subordinate.s.capitalize# bustle #to_fro#.\n\nAs #character.a# #toast#, you #action#",
-
     "week_month" : ["week", "fortnight", "month"],
     "week_months" : ["weeks", "fortnights", "months"],
     "time_periods" : ["#week_month#", "#two_to_ten# #week_months#"],
@@ -72,15 +66,9 @@
     "matter" : ["about a matter of importance to the #realm#", "on behalf of a foreign #noble_organization# of #humanoid.s#", "with information regarding a rival house", "with demands from some #professioe.s#"],
     "trustworthy" : ["trustworthy", "reliable", "dependable", "well-intentioned", "worth your time"],
     "noble_three" : "Every day for the past #week_month#, a certain #character# has come to your #grand_home_adj_opt##nice_home# #ask#ing to #chat# with you, apparently #matter#. Unsure if #he_she# is #trustworthy#, you finally agree to meet.\n\nAt the meeting, you #action#" ,
-
     "noble_four" : "You and your bodyguards are #on_the_way# #towards# #village_full# to celebrate the #festival# with your subjects. You #road_encounter#.\n\nYou #action#",
-
     "noble_prompt": ["#noble_one#", "#noble_two#", "#noble_three#", "#noble_four##"],
-
     "noble_context" : "You are <NAME>, a noble #from_fantasy#. You have #noble_item.a# and #noble_item.a#.",
-
-
-
     "crest" : ["crest of the #deity#", "#animal# crest"],
     "old_paper_adj" : ["wrinkled", "torn", "tattered", "creased"],
     "metal_adj" : ["rusty", "shiny", "steel", "iron", "bronze", "tarnished", "gleaming"],
@@ -102,7 +90,6 @@
     "place_adj" : ["dark", "endless", "strange", "gloomy", "misty", "muddy", "barren", "gray", "creepy"],
     "place" : ["valley", "forest", "plain", "mountain", "swamp", "river", "cave", "cavern", "lake", "expanse", "cliff"],
     "monster_quest" : ["#kill# the #evil_adj# #monster# of Larion. #you_ve.capitalize# heard #he_she_it# lives to the #cardinal_dir# of #the_your# #realm#"],
-
     "artifact_adj" : ["lost", "holy", "gold", "fabled", "mythic", "legendary", "blessed", "cursed", "forgotten", "#color#"],
     "artifact" : ["grail", "fleece", "gauntlet", "banner", "stone", "sword", "helmet", "ring", "book", "chalice", "tome", "gem", "bow", "scepter", "staff"],
     "whole_artifact" : "#artifact_adj# #artifact# of #fantasy_name#",
@@ -110,7 +97,6 @@
     "rumored" : ["is rumored to", "is said to", "was prophesied to"],
     "artifact_description" : ["#rumored# have great power", "#rumored# aid the righteous", "#rumored# have belonged to the dead #royalty#", "#rumored# to ward away evil"],
     "artifact_quest" : "#find# the #whole_artifact#, which #artifact_description#",
-
     "magical_role" : ["wizard", "necromancer", "sorcerer", "warlock", "enchanter", "diviner"],
     "evil_role" : ["witch", "necromancer", "lich", "sorcerer"],
     "evil_humanoid" : ["ogre", "troll", "giant", "orc", "goblin"],
@@ -122,7 +108,6 @@
     "rescue" : ["save", "rescue", "free", "liberate", "deliver", "set free"],
     "bad_guys_place" : ["#bad_place# of the #kidnapper#", "#kidnapper#'s #bad_place#"],
     "rescue_quest" : "#rescue# the #victim_adj_opt##victim# from the #bad_guys_place#",
-
     "quest_type" : ["#monster_quest#", "#artifact_quest#", "#rescue_quest#"],
     "could" : ["will", "may", "should", "could"],
     "adventure" : ["adventure", "quest", "journey", "crusade"],
@@ -130,11 +115,6 @@
     "quest" : ["You are #beginning# #adventure.a# to #quest_type#. You set out #towards# #place_adj.a# #place# that #could# take you there.\n\nAs you approach, you #action#"],
     "knight_prompt" : "#quest#",
     "knight_context" : "You are <NAME>, a knight #from_fantasy#. You have #knight_item.a# and #knight_item.a#.",
-
-
-
-
-
     "random_object" : ["#animal#", "#evil_role#", "#evil_humanoid#", "#monster#", "#humanoid#", "#profession#"],
     "mind" : ["mind", "head", "memory", "consciousness"],
     "flicker" : ["flicker", "echo", "dance", "flit", "jump"],
@@ -159,7 +139,7 @@
     "book" : ["#normal_book#", "#spellbook#", "book", "spellbook"],
     "magic_discipline" : ["alchemy"],
     "through" : ["through", "across", "throughout", "about"],
-    "wizard_drafts" : ["After #week_month.a# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "], 
+    "wizard_drafts" : ["After #week_month.a# of travel you arrive at the ruin ", "Your apprentice has done it again; #he_she# has summoned a being "],
     "road" : ["road", "river", "path"],
     "wizard_exchange" : ["notes", "spells", "gossip", "goods", "research", "banter", "knowledge"],
     "wizard_colleage" : ["another wizard", "a fellow wizard", "a sorcerer", "a #evil_role#", "a #attrib# #char#"],
@@ -186,8 +166,6 @@
     "wizard_three" : "You are apprentice to the #great_wizard#. Before leaving on an errand, they #order.ed# you to never enter their #private# #chamber#... but your curiosity has gotten the best of you.\n\nAs you #go_near# the door, you #action#",
     "wizard_prompt" : ["#wizard_one#", "#wizard_two#", "#wizard_three#"],
     "wizard_context" : "You are <NAME>, a wizard #from_fantasy#. You have #wizard_item.a# and #wizard_item.a#.",
-
-
     "peasant_item" : ["#metal_adj_opt#pitchfork", "shirt on your back", "#metal_adj_opt#shovel", "dirty rag", "#metal_adj_opt#spade", "#metal_adj_opt#sickle", "shears", "basket", "plough", "#metal_adj_opt#scythe", "dirty hat"],
     "farm_animal" : ["pig", "cow", "chicken", "llama", "goat", "horse", "donkey", "rabbit", "hog", "mule", "sow"],
     "farm_animal_sing" : ["sheep", "livestock", "cattle"],
@@ -197,14 +175,11 @@
     "working" : ["working", "toiling", "laboring", "sweating"],
     "morning_time" : ["at the break of dawn", "at daybreak", "early", "early in the morning", "at the cock's crow"],
     "field_verb" : ["plowing", "tilling", "cultivating", "caring for"],
-    "peasant_work" : ["feeding the #farm_animal_type#", "#field_verb# the fields", "harvesting the crops", "planting new crops", "#working# in the fields", "shearing the #woolen#", "milking the #milky#", "shoveling dung"], 
+    "peasant_work" : ["feeding the #farm_animal_type#", "#field_verb# the fields", "harvesting the crops", "planting new crops", "#working# in the fields", "shearing the #woolen#", "milking the #milky#", "shoveling dung"],
     "begin" : ["begin", "go about", "start", "get to", "get about"],
     "second_thing" : ["For a while, you have wanted to run away.", "In the distance, your master is yelling at some other workers.", "The sun beats down upon you.", "This has been your daily routine since you were young.", "You mutter a prayer to the #deity#."],
     "peasant_prompt" : "You wake up #morning_time# and #begin# #peasant_work#. #second_thing# You #action#",
     "peasant_context" : "You are <NAME>, a peasant #from_fantasy#. You have #peasant_item.a# and #peasant_item.a#.",
-
-
-
     "rogue_item" : ["pair of gloves", "cloak", "deck of cards", "dagger", "lockpick", "mask", "shawl", "pipe", "key", "length of rope", "bundle of darts", "sickle", "mace"],
     "walk" : ["walk","go"],
     "street" : ["street", "streets", "square", "road"],
@@ -219,7 +194,6 @@
     "seeking" : ["seeking", "looking for", "searching for", "in search of"],
     "sense" : ["see", "hear", "sense", "remember", "feel", "notice"],
     "rogue_one" : "You #walk# #rogue_location# #seeking# #target#. You #action#",
-
     "position" : ["at the doorstep", "along the way", "suddenly", "before long", "out of the blue", "once in your room"],
     "time" : ["morning", "afternoon", "evening"],
     "day" : ["long day", "long #time#", "few hours", "routine #time#"],

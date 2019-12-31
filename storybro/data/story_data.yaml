@@ -1,12 +1,9 @@
 settings:
-
   fantasy:
     description: "living in the kingdom of Larion. "
     characters:
-
       noble:
         prompts: ["You are awakened by one of your servants who tells you that your keep is under attack. You look out the window and see"]
-
         item1: "pouch of gold"
         item2: "small dagger"
 
@@ -21,7 +18,7 @@ settings:
 
         item1: "staff"
         item2: "spellbook"
-        
+
       peasant:
         prompts: ["You wake up and begin working in the fields. You see"]
 
@@ -38,7 +35,7 @@ settings:
     description: " trying to survive in a post apocalyptic world by scavenging among the ruins of what is left. "
 
     characters:
-    
+
       scavenger:
         prompts: ["You walk for two hours and take a break. You've left your town in search of food. You look around and see "]
 
@@ -50,7 +47,7 @@ settings:
 
         item1: "scales on your face"
         item2: "third leg"
-    
+
       headhunter:
         prompts: ["You are driving your rusty motorbike. You go past many abandoned bunkers. You arrive at a colony and stop the engine. You take a look around and see"]
 

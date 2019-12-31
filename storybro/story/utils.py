@@ -2,14 +2,16 @@
 import re
 from difflib import SequenceMatcher
 
+from importlib_resources import read_text
+
 import yaml
 from profanityfilter import ProfanityFilter
 
 YAML_FILE = "story/story_data.yaml"
 
 
-with open("story/censored_words.txt", "r") as f:
-    censored_words = [l.replace("\n", "") for l in f.readlines()]
+censored_words = read_text('storybro.data', 'censored_words.txt')
+censored_words = [l.replace("\n", "") for l in censored_words.splitlines()]
 
 pf = ProfanityFilter(custom_censor_list=censored_words)
 

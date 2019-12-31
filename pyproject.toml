@@ -33,6 +33,7 @@ click = "7.0"
 sh = "1.12.14"
 click-config-file = "0.5.0"
 appdirs = "1.4.3"
+importlib_resources = "~1.0.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"

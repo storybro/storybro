@@ -1,8 +1,6 @@
 import json
 import os
 
-from story.utils import *
-
 
 def load_stories(file):
 

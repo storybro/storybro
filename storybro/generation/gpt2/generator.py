@@ -5,8 +5,9 @@ import warnings
 import numpy as np
 
 import tensorflow as tf
-from generator.gpt2.src import encoder, model, sample
-from story.utils import *
+
+from storybro.generation.gpt2 import model, encoder, sample
+from storybro.story.utils import cut_trailing_sentence, remove_profanity
 
 warnings.filterwarnings("ignore")
 
@@ -14,24 +15,22 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 class GPT2Generator:
-    def __init__(self, generate_num=60, temperature=0.4, top_k=40, top_p=0.9, censor=True):
+    def __init__(self, model_dir, generate_num=60, temperature=0.4, top_k=40, top_p=0.9, censor=True):
         self.generate_num = generate_num
         self.temp = temperature
         self.top_k = top_k
+
         self.top_p = top_p
         self.censor = censor
 
-        self.model_name = "model_v5"
-        self.model_dir = "generator/gpt2/models"
-        self.checkpoint_path = os.path.join(self.model_dir, self.model_name)
+        self.model_dir = os.path.expanduser(os.path.expandvars(model_dir))
 
-        models_dir = os.path.expanduser(os.path.expandvars(self.model_dir))
         self.batch_size = 1
         self.samples = 1
 
-        self.enc = encoder.get_encoder(self.model_name, models_dir)
+        self.enc = encoder.get_encoder(self.model_dir)
         hparams = model.default_hparams()
-        with open(os.path.join(models_dir, self.model_name, "hparams.json")) as f:
+        with open(os.path.join(self.model_dir, "hparams.json")) as f:
             hparams.override_from_dict(json.load(f))
         seed = np.random.randint(0, 100000)
 
@@ -53,7 +52,7 @@ class GPT2Generator:
         )
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint(os.path.join(models_dir, self.model_name))
+        ckpt = tf.train.latest_checkpoint(self.model_dir)
         saver.restore(self.sess, ckpt)
 
     def prompt_replace(self, prompt):
