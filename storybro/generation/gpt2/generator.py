@@ -56,39 +56,24 @@ class GPT2Generator:
         saver.restore(self.sess, ckpt)
 
     def prompt_replace(self, prompt):
-        # print("\n\nBEFORE PROMPT_REPLACE:")
-        # print(repr(prompt))
         if len(prompt) > 0 and prompt[-1] == " ":
             prompt = prompt[:-1]
 
-        # prompt = second_to_first_person(prompt)
-
-        # print("\n\nAFTER PROMPT_REPLACE")
-        # print(repr(prompt))
         return prompt
 
     def result_replace(self, result):
-        # print("\n\nBEFORE RESULT_REPLACE:")
-        # print(repr(result))
-
         result = cut_trailing_sentence(result)
+
         if len(result) == 0:
             return ""
-        first_letter_capitalized = result[0].isupper()
+
         result = result.replace('."', '".')
         result = result.replace("#", "")
         result = result.replace("*", "")
         result = result.replace("\n\n", "\n")
-        # result = first_to_second_person(result)
+
         if self.censor:
             result = remove_profanity(result)
-
-        if not first_letter_capitalized:
-            result = result[0].lower() + result[1:]
-
-        #
-        # print("\n\nAFTER RESULT_REPLACE:")
-        # print(repr(result))
 
         return result
 
@@ -107,24 +92,15 @@ class GPT2Generator:
                 text = self.enc.decode(out[i])
         return text
 
-    def generate(self, prompt, options=None, seed=1):
+    def generate(self, prompt):
 
         debug_print = False
-        prompt = self.prompt_replace(prompt)
+        filtered_prompt = self.prompt_replace(prompt)
 
-        if debug_print:
-            print("******DEBUG******")
-            print("Prompt is: ", repr(prompt))
+        result = self.generate_raw(filtered_prompt)
+        filtered_result = self.result_replace(result)
 
-        text = self.generate_raw(prompt)
-
-        if debug_print:
-            print("Generated result is: ", repr(text))
-            print("******END DEBUG******")
-
-        result = text
-        result = self.result_replace(result)
-        if len(result) == 0:
+        if len(filtered_result) == 0:
             return self.generate(prompt)
 
-        return result
+        return filtered_result
