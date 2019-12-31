@@ -42,5 +42,6 @@ def get(config, name, torrent, force):
         "--disable-ipv6",
         "--split", "64",
         "-d", config.models_path,
+        "-o", name,
         torrent,
     )
