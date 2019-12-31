@@ -9,7 +9,7 @@ copy ./bin/linux/install/install-system-packages /bin/install-system-packages
 run install-system-packages
 
 copy pyproject.toml pyproject.toml
-copy README.md README.md
+run touch README.md
 
 copy ./bin/linux/install/install-python-packages /bin/install-python-packages
 run install-python-packages
