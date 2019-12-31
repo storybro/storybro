@@ -20,7 +20,7 @@ git clone --branch master https://github.com/storybro/storybro/
 cd storybroy
 ./bin/linux/install/install # Installs system and python packages
 poetry shell
-storybro models get official_v5
+storybro models get model_v5
 storybro play
 ```
 

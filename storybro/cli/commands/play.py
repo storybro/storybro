@@ -3,7 +3,7 @@ import click
 from storybro.play import play_aidungeon_2
 
 @click.command()
-@click.argument('model', default="official_v5")
+@click.argument('model', default="model_v5")
 @click.pass_obj
 def play(config, model):
     if model not in config.model_manager.models:
