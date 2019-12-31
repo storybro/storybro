@@ -5,7 +5,8 @@ from appdirs import user_data_dir
 import click
 import click_config_file
 
-from storybro.models import ModelManager
+from storybro.models.manager import ModelManager
+from storybro.models.registry import ModelRegistry
 from .commands.models import models
 from .commands.play import play
 
@@ -27,7 +28,7 @@ data_dir = user_data_dir("storybro", "storybro")
 @click.pass_context
 @click_config_file.configuration_option()
 def cli(ctx, model_registry, models_path, grammars_path):
-    Config.model_registry = model_registry
+    Config.model_registry = ModelRegistry(model_registry)
     Config.models_path = models_path
     Config.grammars_path = grammars_path
     Config.model_manager = ModelManager(models_path)

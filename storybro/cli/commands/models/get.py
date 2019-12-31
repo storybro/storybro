@@ -3,9 +3,6 @@ import shutil
 
 import click
 
-from storybro.models import models_at_path
-from storybro.registry import fetch_model_registry
-
 
 @click.command()
 @click.argument('name')
@@ -14,22 +11,23 @@ from storybro.registry import fetch_model_registry
 @click.pass_obj
 def get(config, name, torrent, force):
     '''Download a model'''
-    models = fetch_model_registry(config.model_registry)
-    installed = models_at_path(config.models_path)
+    installed = config.model_manager.models
 
     if torrent is None:
-        if name not in models:
+        if name not in config.model_registry.models:
             click.echo(f"The model `{name}` wasn't found.")
             return
 
-        torrent = models[name]
+        torrent = config.model_registry.models[name]
 
-    if name in installed:
+    model = config.model_manager.models.get(name)
+
+    if model:
         if not force:
-            click.echo(f"The model `{name}` is already installed.")
+            click.echo(f"The model `{name}` is already installed. Use -f to force re-download.")
             return
         else:
-            shutil.rmtree(os.path.join(config.models_path, name))
+            shutil.rmtree(model.root_path)
             click.echo(f"Deleted local model `{name}`. Re-downloading.")
 
     click.echo(f"Downloading torrent: {torrent}")

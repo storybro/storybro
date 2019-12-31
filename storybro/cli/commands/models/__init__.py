@@ -7,8 +7,7 @@ def models(config):
 
 from .get import get
 from .list import list
-from .flatten import flatten
 
 models.add_command(get)
 models.add_command(list)
-models.add_command(flatten)
+

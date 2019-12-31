@@ -15,7 +15,7 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 class GPT2Generator:
-    def __init__(self, model_dir, generate_num=60, temperature=0.4, top_k=40, top_p=0.9, censor=True):
+    def __init__(self, modelobj, generate_num=60, temperature=0.4, top_k=40, top_p=0.9, censor=True):
         self.generate_num = generate_num
         self.temp = temperature
         self.top_k = top_k
@@ -23,14 +23,14 @@ class GPT2Generator:
         self.top_p = top_p
         self.censor = censor
 
-        self.model_dir = os.path.expanduser(os.path.expandvars(model_dir))
+        self.model = modelobj
 
         self.batch_size = 1
         self.samples = 1
 
-        self.enc = encoder.get_encoder(self.model_dir)
+        self.enc = encoder.get_encoder(self.model.root_path)
         hparams = model.default_hparams()
-        with open(os.path.join(self.model_dir, "hparams.json")) as f:
+        with open(os.path.join(self.model.root_path, "hparams.json")) as f:
             hparams.override_from_dict(json.load(f))
         seed = np.random.randint(0, 100000)
 
@@ -52,7 +52,7 @@ class GPT2Generator:
         )
 
         saver = tf.train.Saver()
-        ckpt = tf.train.latest_checkpoint(self.model_dir)
+        ckpt = tf.train.latest_checkpoint(self.model.root_path)
         saver.restore(self.sess, ckpt)
 
     def prompt_replace(self, prompt):
