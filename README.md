@@ -15,6 +15,16 @@ This fork aims to:
 
 To play the game locally, it is recommended that you have an nVidia GPU with 12 GB or more of memory, and CUDA installed. If you do not have such a GPU, each turn can take a couple of minutes or more for the game to compose its response. To install and play locally:
 
+Windows Users:
+```
+1: If you do not already have Chocolatey then go ahead and run Install_choco.bat as ADMINISTRATOR and wait for it to finish
+2: Run Install_win afterwards as ADMINISTRATOR, at the end it will automatically launch itself into the storybro shell
+3: Now type in 'storybro models get models_v5' without quote's. allow that to install then type in 'storybro play' to play!
+4: You can quickly access the shell by opening the OpenShell.bat
+
+Note: The reason chocolatey is a seperate install is due to some instances of CMD not working correctly with choco until it has been resetted.
+```
+Manual Install:
 ```
 git clone --branch master https://github.com/storybro/storybro/
 cd storybroy
