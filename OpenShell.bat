@@ -1,6 +1,6 @@
 @ECHO off
 
-TITLE StoryMaster Community Pro Super Deluxe 2020: Bro edition
+TITLE Storybro: A community driven fork of AIDungeon 2
 
 ECHO Launching Shell
 
