@@ -22,8 +22,6 @@ Windows Users:
 3: Now type in 'storybro models get models_v5' without quote's. allow that to install then type in 'storybro play' to play!
 4: You can quickly access the shell by opening the OpenShell.bat
 
-Note: The reason chocolatey is a seperate install is due to some instances of CMD not working correctly with choco until it has been resetted.
-
 Manual Install:
 ```
 git clone --branch master https://github.com/storybro/storybro/
