@@ -292,3 +292,21 @@ def second_to_first_person(text):
             text = replace_outside_quotes(text, variation[0], variation[1])
 
     return capitalize_first_letters(text[1:])
+
+
+def parse_slice(value, bump_stop=False) -> slice:
+    """
+    Parses a `slice()` from string, like `start:stop:step`.
+    """
+    if value:
+        parts = value.split(':')
+        if len(parts) == 1:
+            # slice(stop)
+            parts = [None, parts[0]]
+    else:
+        parts = []
+
+    if parts[1] and bump_stop:
+        parts[1] = str(int(parts[1]) + 1)
+
+    return slice(*[int(p) if p else None for p in parts])

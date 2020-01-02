@@ -18,3 +18,7 @@ class Model:
                 shutil.move(filename, self.root_path)
         for dirname in find_dirs(self.root_path):
             shutil.rmtree(dirname)
+
+    @property
+    def name(self):
+        return os.path.basename(self.root_path)
