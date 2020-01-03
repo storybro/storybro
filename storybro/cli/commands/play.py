@@ -7,6 +7,9 @@ from storybro.play.block_formatter import BlockFormatter
 from storybro.play.player import Player
 from storybro.play.settings import PlayerSettings
 
+# make colab behave
+from cmd2 import rl_utils
+rl_utils.rl_type = rl_utils.RlType.NONE
 
 @click.command()
 @click.argument('story-name', required=True)
