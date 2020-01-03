@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-export DEPLOY_ENV=true
+export DEPLOY_ENV=false
 
 ./bin/linux/install/python-version-check
 ./bin/linux/install/install-system-packages
