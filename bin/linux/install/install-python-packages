@@ -2,7 +2,6 @@
 set -e
 
 install_python_dependencies() {
-  pip install --upgrade setuptools
   pip install "tensorflow==1.15"
   pip install "poetry==1.0.0"
 
