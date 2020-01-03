@@ -1,28 +1,19 @@
 from __future__ import unicode_literals
 
 import argparse
-import os
-import sys
 import textwrap
 
-import click
+# import click
 import cmd2
-from appdirs import user_data_dir
 from cmd2 import with_argparser
 from importlib_resources import read_text
-from prompt_toolkit import PromptSession
 
-from storybro.cli import Config
 from storybro.generation.gpt2.generator import GPT2Generator
-from storybro.models.manager import ModelManager
 from storybro.models.model import Model
 from storybro.play.block_formatter import BlockFormatter
 from storybro.play.settings import PlayerSettings
 from storybro.stories.block import Block
-from storybro.stories.manager import StoryManager
 from storybro.stories.story import Story
-from storybro.story import story_manager
-from storybro.story.utils import cut_trailing_sentence, parse_slice
 
 
 class NoBlockCommitter(Exception):
@@ -42,7 +33,6 @@ class Player(cmd2.Cmd):
         self.block_formatter: BlockFormatter = block_formatter
 
         self.generator: GPT2Generator = None
-        self.session: PromptSession = None
 
         self.remove_default_commands()
         self.setup_settables()
@@ -85,7 +75,6 @@ class Player(cmd2.Cmd):
     def run(self):
         self.display_splash()
         self.generator = self.setup_generator(self.model)
-        self.session = PromptSession()
 
         if self.story.blocks:
             self.poutput(self.block_formatter.render_story(self.story))
@@ -187,11 +176,11 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Delete these {len(filtered)} blocks?" if len(filtered) > 1 else "Delete this block?"
-        if click.confirm(message):
-            for block in filtered:
-                self.story.blocks.remove(block)
-
-            self.poutput("Done.")
+        # if click.confirm(message):
+        #     for block in filtered:
+        #         self.story.blocks.remove(block)
+        #
+        #     self.poutput("Done.")
 
     argparser = argparse.ArgumentParser()
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
@@ -212,11 +201,11 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Pin these {len(filtered)} blocks?" if len(filtered) > 1 else "Pin this block?"
-        if click.confirm(message):
-            for block in filtered:
-                block.attrs['pinned'] = True
-
-            self.poutput("Done.")
+        # if click.confirm(message):
+        #     for block in filtered:
+        #         block.attrs['pinned'] = True
+        #
+        #     self.poutput("Done.")
 
     argparser = argparse.ArgumentParser()
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
@@ -237,11 +226,11 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Unpin these {len(filtered)} blocks?" if len(filtered) > 1 else "Unpin this block?"
-        if click.confirm(message):
-            for block in filtered:
-                del block.attrs['pinned']
-
-            self.poutput("Done.")
+        # if click.confirm(message):
+        #     for block in filtered:
+        #         del block.attrs['pinned']
+        #
+        #     self.poutput("Done.")
 
     argparser = argparse.ArgumentParser()
     @with_argparser(argparser)
