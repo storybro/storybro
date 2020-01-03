@@ -59,8 +59,14 @@ Use Pip to install the latest release of Storybro:
 To install the development version:
 
     pip install git+https://github.com/storybro/storybro.git
-    
+
+Or run this if you have cloned the source and are in that directory:
+
+    pip install .
+
 *(Optional)* To use the model torrenting in Storybro, install [Aria2](https://aria2.github.io/) and ensure it is on your `$PATH`.
+
+**For troubleshooting [see the wiki](https://github.com/storybro/storybro/wiki/Troubleshooting-Guide)**
 
 # Playing
 

@@ -18,7 +18,7 @@ homepage = "https://github.com/storybro/storybro"
 keywords = ['gpt2', 'gpt-2']
 
 [tool.poetry.dependencies]
-python = "~3.6.8"  # Compatible python versions must be declared here
+python = ">=3.4 <3.8"  # Compatible python versions must be declared here
 google-cloud-storage = "1.23.0"
 gsutil = "4.46"
 numpy = "1.18.0"
