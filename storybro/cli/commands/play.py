@@ -6,6 +6,7 @@ import click
 from storybro.play.block_formatter import BlockFormatter
 from storybro.play.player import Player
 from storybro.play.settings import PlayerSettings
+from storybro.utils import yes_no
 
 
 @click.command()
@@ -41,7 +42,7 @@ def play(config,
 
     story = config.story_manager.stories.get(story_name)
     if not story:
-        if not click.confirm('Story does not exist. Create new story?'):
+        if not yes_no('Story does not exist. Create new story?'):
             return
         story = config.story_manager.new_story(story_name)
 
