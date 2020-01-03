@@ -1,9 +1,9 @@
-import click
+import os
 import sys
 
-from storybro.play import play_aidungeon_2
-from storybro.play.block_formatter import BlockFormatter
+import click
 
+from storybro.play.block_formatter import BlockFormatter
 from storybro.play.player import Player
 from storybro.play.settings import PlayerSettings
 
@@ -17,6 +17,7 @@ from storybro.play.settings import PlayerSettings
 @click.option('--top-separator')
 @click.option('--bottom-separator')
 @click.option('--fill-width', type=int)
+@click.option('--force-cpu', '-f', is_flag=True, help="Force the model to run on the CPU")
 @click.pass_obj
 def play(config,
          story_name,
@@ -24,7 +25,11 @@ def play(config,
          memory, max_repeats,
          icon_for_input,
          top_separator, bottom_separator,
-         fill_width):
+         fill_width,
+         force_cpu):
+
+    if force_cpu:
+        os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
     model = config.model_manager.models.get(model_name)
     if not model:
