@@ -3,7 +3,7 @@ set -e
 
 export DEPLOY_ENV=true
 
-./python-version-check
-./install-system-packages
-./install-python-packages
-./install-storybro
+./bin/linux/install/python-version-check
+./bin/linux/install/install-system-packages
+./bin/linux/install/install-python-packages
+./bin/linux/install/install-storybro
