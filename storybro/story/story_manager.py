@@ -201,7 +201,7 @@ class StoryManager:
         return str(story)
 
     def json_story(self):
-        return self.story.to_json()
+        return self.story.to_data()
 
     def story_context(self):
         return self.story.latest_result()
