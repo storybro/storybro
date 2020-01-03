@@ -1,21 +1,27 @@
 from __future__ import unicode_literals
 
 import argparse
+import os
 import sys
 import textwrap
 
 import click
 import cmd2
+from appdirs import user_data_dir
 from cmd2 import with_argparser
 from importlib_resources import read_text
 from prompt_toolkit import PromptSession
 
+from storybro.cli import Config
 from storybro.generation.gpt2.generator import GPT2Generator
+from storybro.models.manager import ModelManager
 from storybro.models.model import Model
 from storybro.play.block_formatter import BlockFormatter
 from storybro.play.settings import PlayerSettings
 from storybro.stories.block import Block
+from storybro.stories.manager import StoryManager
 from storybro.stories.story import Story
+from storybro.story import story_manager
 from storybro.story.utils import cut_trailing_sentence, parse_slice
 
 
@@ -264,4 +270,27 @@ class Player(cmd2.Cmd):
         self.poutput(f" - Pinned: {pinned}")
         self.poutput(f" - Words: {total_words}")
         self.poutput(f" - Characters: {total_characters}")
+
+def play_now():
+    data_dir = user_data_dir("storybro", "storybro")
+
+    story_manager = StoryManager(os.path.join(data_dir, "stories"))
+    model_manager = ModelManager(os.path.join(data_dir, "models"))
+
+    model = model_manager.models.get("model_v5")
+    if not model:
+        click.echo(f"Model `model_v5` is not installed.")
+        return
+
+    story = story_manager.stories.get("story")
+    if not story:
+        if not click.confirm('Story `story` does not exist. Create new story?'):
+            return
+        story = story_manager.new_story("story")
+
+
+    settings = PlayerSettings(20, 5, ">", "", "", 80)
+    formatter = BlockFormatter(settings)
+    player = Player(model, story, settings, formatter)
+    player.run()
 

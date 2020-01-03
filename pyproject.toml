@@ -39,6 +39,7 @@ prompt_toolkit = "3.0.2"
 
 [tool.poetry.scripts]
 storybro = 'storybro:main'
+storybro-play = 'storybro:play:player:play_now'
 
 [build-system]
 requires = ["poetry"]
