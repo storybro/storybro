@@ -27,6 +27,7 @@ pyyaml = "5.2"
 regex = "2019.12.20"
 func_timeout = "4.3.5"
 playsound = "1.2.2"
+tensorflow = "1.15"
 tracery = "0.1.1"
 cryptography = "~2.8"
 click = "7.0"
@@ -36,9 +37,9 @@ importlib_resources = "~1.0.2"
 cmd2 = "0.9.22"
 prompt_toolkit = "3.0.2"
 
-[tool.poetry.dev-dependencies]
-pytest = "^3.0"
-pytest-cov = "^2.4"
-
 [tool.poetry.scripts]
 storybro = 'storybro:main'
+
+[build-system]
+requires = ["poetry"]
+build-backend = "poetry.masonry.api"
