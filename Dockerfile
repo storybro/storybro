@@ -1,27 +1,24 @@
 from python:3.6.8
 
 run apt-get update
+run apt-get install -y git aria2 unzip
 
 workdir /storybro
 
-copy ./bin/linux/install/python-version-check /bin/python-version-check
-run python-version-check
+env POETRY_VIRTUALENVS_CREATE=false
 
-copy ./bin/linux/install/install-system-packages /bin/install-system-packages
-run install-system-packages
-
-run pip install tensorflow==1.15
+run pip install poetry tensorflow==1.15
 
 run touch README.md
 copy pyproject.toml pyproject.toml
 
-copy ./bin/linux/install/install-python-packages /bin/install-python-packages
-run install-python-packages
+run sed -i '/tensorflow/d' pyproject.toml
+
+run poetry install --no-root
 
 copy storybro/ storybro/
 
-copy ./bin/linux/install/install-storybro /bin/install-storybro
-run install-storybro
+run pip install .
 
 volume /models
 
