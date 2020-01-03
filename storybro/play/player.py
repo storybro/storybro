@@ -7,7 +7,6 @@ import textwrap
 import cmd2
 from cmd2 import with_argparser
 from importlib_resources import read_text
-from prompt_toolkit import PromptSession
 
 from storybro.generation.gpt2.generator import GPT2Generator
 from storybro.models.model import Model
@@ -35,7 +34,6 @@ class Player(cmd2.Cmd):
         self.block_formatter: BlockFormatter = block_formatter
 
         self.generator: GPT2Generator = None
-        self.session: PromptSession = None
 
         self.remove_default_commands()
         self.setup_settables()
@@ -74,7 +72,6 @@ class Player(cmd2.Cmd):
     def run(self):
         self.display_splash()
         self.generator = self.setup_generator(self.model)
-        self.session = PromptSession()
 
         if self.story.blocks:
             self.poutput(self.block_formatter.render_story(self.story))
