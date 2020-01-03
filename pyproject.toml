@@ -35,7 +35,6 @@ click-config-file = "0.5.0"
 appdirs = "1.4.3"
 importlib_resources = "~1.0.2"
 cmd2 = "0.9.22"
-prompt_toolkit = "3.0.2"
 
 [tool.poetry.scripts]
 storybro = 'storybro:main'
