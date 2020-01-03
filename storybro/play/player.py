@@ -84,7 +84,8 @@ class Player(cmd2.Cmd):
         if self.story.blocks:
             self.poutput(self.block_formatter.render_story(self.story))
 
-        sys.exit(self.cmdloop())
+        # sys.exit(self.cmdloop())
+        self.cmdloop()
 
     def _input_line_to_statement(self, line: str) -> cmd2.Statement:
         line = line.strip()
