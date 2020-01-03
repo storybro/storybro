@@ -4,6 +4,8 @@ import os
 import click
 from appdirs import user_data_dir
 
+from storybro.cli.commands import play
+
 from storybro.models.manager import ModelManager
 from storybro.play.block_formatter import BlockFormatter
 from storybro.play.player import Player
