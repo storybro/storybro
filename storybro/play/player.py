@@ -40,7 +40,11 @@ class Player(cmd2.Cmd):
 
         self.remove_default_commands()
         self.setup_settables()
+
+        self.use_rawinput = True
         self.allow_ansi = "Terminal"
+        self.allow_cli_args = False
+        self.allow_redirection = False
 
     @property
     def prompt(self):
