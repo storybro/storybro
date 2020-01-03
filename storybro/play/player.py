@@ -4,7 +4,6 @@ import argparse
 import sys
 import textwrap
 
-import click
 import cmd2
 from cmd2 import with_argparser
 from importlib_resources import read_text
@@ -16,7 +15,7 @@ from storybro.play.block_formatter import BlockFormatter
 from storybro.play.settings import PlayerSettings
 from storybro.stories.block import Block
 from storybro.stories.story import Story
-from storybro.story.utils import cut_trailing_sentence, parse_slice
+from storybro.utils import yes_no
 
 
 class NoBlockCommitter(Exception):
@@ -176,7 +175,7 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Delete these {len(filtered)} blocks?" if len(filtered) > 1 else "Delete this block?"
-        if click.confirm(message):
+        if yes_no(message):
             for block in filtered:
                 self.story.blocks.remove(block)
 
@@ -201,7 +200,7 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Pin these {len(filtered)} blocks?" if len(filtered) > 1 else "Pin this block?"
-        if click.confirm(message):
+        if yes_no(message):
             for block in filtered:
                 block.attrs['pinned'] = True
 
@@ -226,7 +225,7 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Unpin these {len(filtered)} blocks?" if len(filtered) > 1 else "Unpin this block?"
-        if click.confirm(message):
+        if yes_no(message):
             for block in filtered:
                 del block.attrs['pinned']
 
