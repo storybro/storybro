@@ -79,6 +79,8 @@ Use Poetry to install Storybro:
 Use Poetry to run Storybro:
 
     $ poetry run storybro
+    
+Storybro uses [Aria2](https://aria2.github.io/) to download models. Make sure that it is installed and on your `$PATH` if you intend to use Storybro to download models.
 
 
 Community
