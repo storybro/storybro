@@ -19,7 +19,7 @@ Windows Users:
 
 1: If you do not already have Chocolatey then go ahead and run Install_choco.bat as ADMINISTRATOR and wait for it to finish
 2: Run Install_win afterwards as ADMINISTRATOR, at the end it will automatically launch itself into the storybro shell
-3: Now type in 'storybro models get models_v5' without quote's. allow that to install then type in 'storybro play' to play!
+3: Now type in 'storybro models get model_v5' without quote's. allow that to install then type in 'storybro play' to play!
 4: You can quickly access the shell by opening the OpenShell.bat
 
 Manual Install:
