@@ -44,7 +44,8 @@ class Player(cmd2.Cmd):
 
     @property
     def prompt(self):
-        return f"{self.settings.icon_for_input}   "
+        pass
+        # return f"{self.settings.icon_for_input}   "
 
     def remove_default_commands(self):
         del cmd2.Cmd.do_alias
