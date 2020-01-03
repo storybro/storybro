@@ -25,7 +25,7 @@ Windows Users:
 Manual Install:
 ```
 git clone --branch master https://github.com/storybro/storybro/
-cd storybroy
+cd storybro
 ./bin/linux/install/install # Installs system and python packages
 poetry shell
 storybro models get model_v5
