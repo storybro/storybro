@@ -2,6 +2,8 @@ from python:3.6.8
 
 run apt-get update
 
+workdir /storybro
+
 copy ./bin/linux/install/python-version-check /bin/python-version-check
 run python-version-check
 
