@@ -11,6 +11,6 @@ pip install poetry
 
 choco install aria2
 
-powershell -Command "cd %~dp0; poetry install; poetry run pip install tensorflow==1.15; ECHO Done!;poetry shell;"
+powershell -Command "cd %~dp0; poetry install; poetry run pip install tensorflow; ECHO Done!;poetry shell;"
 
 PAUSE
