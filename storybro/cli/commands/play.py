@@ -26,7 +26,7 @@ def play(config,
          memory, max_repeats,
          icon_for_input,
          top_separator, bottom_separator,
-         fill_width
+         fill_width,
          force_cpu):
 
     if force_cpu:
