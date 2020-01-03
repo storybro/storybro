@@ -1,4 +1,6 @@
 """A community fork of AI Dungeon 2"""
+import os
+
 import click
 from appdirs import user_data_dir
 
