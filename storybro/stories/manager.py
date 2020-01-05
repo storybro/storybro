@@ -26,7 +26,7 @@ class StoryManager:
 
         return story_map
 
-    def new_story(self, name):
+    def new_story(self, name, initial):
         story = self.stories.get(name)
 
         if story:
@@ -34,4 +34,4 @@ class StoryManager:
 
         story_path = os.path.join(self.root_path, name)
 
-        return Story(story_path)
+        return Story(story_path, initial)

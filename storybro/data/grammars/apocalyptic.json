@@ -1,4 +1,5 @@
 {
+  "characters": ["scavenger", "mutant", "headhunter"],
   "rare_sense" : ["taste", "smell", "watch", "observe", "monitor", "look"],
   "sense" : ["see", "hear", "sense", "feel", "notice", "#rare_sense#"],
   "remember" : ["remember", "recall", "recollect"],
