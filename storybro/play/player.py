@@ -61,8 +61,10 @@ class Player(cmd2.Cmd):
         """Create pass-through properties on Player class for each setting in PlayerSettings"""
         self.settable = self.settings.settable()
         for attr in self.settable:
-            setattr(Player, attr, property(lambda self, attr=attr: getattr(self.settings, attr),
-                                           lambda self, value, attr=attr: setattr(self.settings, attr, value)))
+            if not hasattr(self, attr):
+                setattr(Player, attr, property(
+                    lambda self, attr=attr: getattr(self.settings, attr),
+                    lambda self, value, attr=attr: setattr(self.settings, attr, value)))
 
     def display_splash(self):
         text = read_text('storybro.data', 'splash.txt')
@@ -255,4 +257,3 @@ class Player(cmd2.Cmd):
         self.poutput(f" - Pinned: {pinned}")
         self.poutput(f" - Words: {total_words}")
         self.poutput(f" - Characters: {total_characters}")
-
