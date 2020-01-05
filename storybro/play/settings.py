@@ -13,7 +13,7 @@ class PlayerSettings:
                  ):
         self.memory: int = memory or 20
         self.max_repeats: int = max_repeats or 5
-        self.icon_for_input: str = icon_for_input or "📖"
+        self.icon_for_input: str = icon_for_input or ">"
         self.icon_for_output: str = icon_for_input or "💻"
         self.icon_for_pins: str = icon_for_pins or "📌"
         self.icon_for_delete: str = icon_for_delete or "❌"
