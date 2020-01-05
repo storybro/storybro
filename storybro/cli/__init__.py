@@ -9,6 +9,8 @@ from storybro.cli.config import Config
 from storybro.models.manager import ModelManager
 from storybro.models.registry import ModelRegistry
 from storybro.stories.manager import StoryManager
+from storybro.story.grammars import GrammarManager
+
 from .commands.models import models
 from .commands.stories import stories
 from .commands.play import play
@@ -32,13 +34,15 @@ data_dir = user_data_dir("storybro", "storybro")
 @click.pass_context
 @click_config_file.configuration_option()
 def cli(ctx, model_registry, models_path, stories_path, grammars_path):
-    Config.model_registry = ModelRegistry(model_registry)
-    Config.models_path = models_path
-    Config.grammars_path = grammars_path
-    Config.stories_path = stories_path
-    Config.story_manager = StoryManager(stories_path)
-    Config.model_manager = ModelManager(models_path)
-    ctx.obj = Config
+    config = Config()
+    config.model_registry = ModelRegistry(model_registry)
+    config.models_path = models_path
+    config.grammars_path = grammars_path
+    config.stories_path = stories_path
+    config.story_manager = StoryManager(stories_path)
+    config.model_manager = ModelManager(models_path)
+    config.grammar_manager = GrammarManager(grammars_path)
+    ctx.obj = config
 
 
 def ep():

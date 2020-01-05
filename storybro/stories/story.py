@@ -7,10 +7,16 @@ from storybro.story.utils import parse_slice
 
 class Story:
 
-    def __init__(self, path: str):
+    def __init__(self, path: str, initial: str):
         self.path: str = path
         self.blocks: List[Block] = []
         self.attrs: Dict = {}
+
+        if not initial == "":
+            initial = Block(initial, attrs={
+                'pinned': True
+            })
+            self.blocks.append(initial)
 
     def save(self):
         with open(self.path, 'w') as fobj:
@@ -31,7 +37,7 @@ class Story:
 
     @classmethod
     def from_data(cls, path, data):
-        story = cls(path)
+        story = cls(path, "")
         story.attrs = data["attrs"]
         story.blocks = [Block.from_data(d) for d in data["blocks"]]
         return story

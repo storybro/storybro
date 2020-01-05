@@ -1,6 +1,7 @@
 {
+    "characters": ["wizard", "noble", "knight", "peasant", "rogue"],
     "rare_sense" : ["taste", "smell", "watch", "observe", "monitor", "look"],
-    "sense" : ["see", "hear", "sense", "feel", "notice", "#rare_sense#"],
+    "sense" : ["see", "hear", "sense", "feel", "notice", "remember","#rare_sense#"],
     "remember" : ["remember", "recall", "recollect"],
     "think" : ["wonder", "decide", "#remember#", "realize", "imagine"],
     "action" : ["#sense#", "#think#"],
@@ -192,7 +193,6 @@
     "amongst" : ["amongst", "in the midst of", "among"],
     "rogue_location" : ["#along# the #city# #street#", "#amongst# the #townsfolk#"],
     "seeking" : ["seeking", "looking for", "searching for", "in search of"],
-    "sense" : ["see", "hear", "sense", "remember", "feel", "notice"],
     "rogue_one" : "You #walk# #rogue_location# #seeking# #target#. You #action#",
     "position" : ["at the doorstep", "along the way", "suddenly", "before long", "out of the blue", "once in your room"],
     "time" : ["morning", "afternoon", "evening"],

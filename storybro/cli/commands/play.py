@@ -8,6 +8,7 @@ from storybro.play.player import Player
 from storybro.play.settings import PlayerSettings
 from storybro.utils import yes_no
 
+from storybro.story.prompt_creator import PromptCreator
 
 @click.command()
 @click.argument('story-name', required=True)
@@ -29,6 +30,8 @@ def play(config,
          fill_width,
          force_cpu):
 
+    sys.argv = ['storybro']
+
     if force_cpu:
         os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
@@ -41,12 +44,14 @@ def play(config,
         print(f"- {name}")
 
     story = config.story_manager.stories.get(story_name)
+
     if not story:
         if not yes_no('Story does not exist. Create new story?'):
             return
-        story = config.story_manager.new_story(story_name)
 
-    sys.argv = ['storybro']
+        prompt = PromptCreator(config).get_prompt()
+        story = config.story_manager.new_story(story_name, prompt)
+
     settings = PlayerSettings(memory, max_repeats, icon_for_input, top_separator, bottom_separator, fill_width)
     formatter = BlockFormatter(settings)
     player = Player(model, story, settings, formatter)
