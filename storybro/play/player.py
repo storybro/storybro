@@ -144,12 +144,16 @@ class Player(cmd2.Cmd):
         return f"{icon}{pin} {index_label}: {text}"
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_list(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
@@ -159,12 +163,16 @@ class Player(cmd2.Cmd):
                 self.poutput(block_line)
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_delete(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
@@ -181,12 +189,16 @@ class Player(cmd2.Cmd):
             self.poutput("Done.")
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_pin(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
@@ -206,12 +218,16 @@ class Player(cmd2.Cmd):
             self.poutput("Done.")
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_unpin(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
