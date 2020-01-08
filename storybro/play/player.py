@@ -26,7 +26,7 @@ class Player(cmd2.Cmd):
 
     def __init__(self, model: Model, story: Story, settings: PlayerSettings,
                  block_formatter: BlockFormatter):
-        super().__init__()
+        super().__init__(multiline_commands=['multi'])
 
         self.model: Model = model
         self.story: Story = story
@@ -110,6 +110,10 @@ class Player(cmd2.Cmd):
 
         rendered_block: Block = self.block_formatter.render_block(output_block)
         self.poutput(rendered_block.text)
+
+
+    def do_multi(self, input_text: str):
+        return self.do_commit(input_text)
 
 
     def do_save(self, text):
