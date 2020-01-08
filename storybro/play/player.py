@@ -85,6 +85,8 @@ class Player(cmd2.Cmd):
 
         if line == "eof":
             line = "quit"
+        elif line.startswith("!"):
+            line = f"raw {line}"
         elif not line.startswith("/"):
             line = f"commit {line}"
         else:
@@ -111,10 +113,26 @@ class Player(cmd2.Cmd):
         rendered_block: Block = self.block_formatter.render_block(output_block)
         self.poutput(rendered_block.text)
 
+    def do_raw(self, input_text: str):
+        print("🕑", end="\r")
+        raw_block = Block(input_text, attrs=dict(type='output'))
+        if raw_block.text:
+            self.story.blocks.append(raw_block)
+
+        processed_story: str = self.block_formatter.process_story(self.story)
+        output_text: str = self.generator.generate_raw(processed_story)
+
+        output_block = Block(output_text, attrs=dict(type='output'))
+        output_block = self.block_formatter.filter_block(output_block)
+        self.story.blocks.append(output_block)
+
+        print("  ", end="\r")
+
+        rendered_block: Block = self.block_formatter.render_block(output_block)
+        self.poutput(rendered_block.text)
 
     def do_multi(self, input_text: str):
         return self.do_commit(input_text)
-
 
     def do_save(self, text):
         self.story.save()
