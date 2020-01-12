@@ -6,6 +6,7 @@ from importlib_resources import read_text, path
 
 import tracery
 from tracery.modifiers import base_english
+from storybro.utils import find_files
 
 class GrammarManager:
     def __init__(self, root_path):
@@ -23,6 +24,16 @@ class GrammarManager:
         with self.open_default("apocalyptic") as file:
             self.write_file("apocalyptic", file.read())
 
+    @property
+    def grammars(self):
+        grammars = []
+
+        for file_path in find_files(self.root_path):
+            name = os.path.basename(file_path)
+            grammars.append(name.replace('.json', ''))
+
+        return grammars
+
 
     def open_default(self, name):
         with path('storybro.data.grammars', f"{name}.json") as grammar_path:
@@ -36,10 +47,10 @@ class GrammarManager:
             fobj.write(text)
 
 
-    def apply_grammar(self, key, rules):
+    def apply_grammar(self, text, rules, as_key):
         grammar = tracery.Grammar(rules)
         grammar.add_modifiers(base_english)
-        return grammar.flatten("#{}#".format(key))
+        return grammar.flatten("#{}#".format(text) if as_key else text)
 
 
     def load_rules(self, grammar_file):
@@ -54,7 +65,7 @@ class GrammarManager:
         Provides a randomized prompt according to the rules in specified grammar file
         """
         rules = self.load_rules(grammar_file)
-        artefact = self.apply_grammar("{}_{}".format(character_type, key), rules)
+        artefact = self.apply_grammar("{}_{}".format(character_type, key), rules, True)
         return artefact
 
 

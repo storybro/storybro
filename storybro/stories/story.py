@@ -14,7 +14,8 @@ class Story:
 
         if not initial == "":
             initial = Block(initial, attrs={
-                'pinned': True
+                'pinned': True,
+                'should_complete': True
             })
             self.blocks.append(initial)
 
