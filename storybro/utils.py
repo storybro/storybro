@@ -1,4 +1,7 @@
 import os
+import sys
+
+from distutils.util import strtobool
 
 
 def find_files(path):
@@ -18,3 +21,12 @@ def find_child_dirs(path):
         return next(os.walk(path))[1]
     except StopIteration:
         return []
+
+
+def yes_no(question):
+    sys.stdout.write('%s [y/n]\n' % question)
+    while True:
+        try:
+            return strtobool(input().lower())
+        except ValueError:
+            sys.stdout.write('Please respond with \'y\' or \'n\'.\n')

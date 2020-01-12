@@ -4,11 +4,9 @@ import argparse
 import sys
 import textwrap
 
-import click
 import cmd2
 from cmd2 import with_argparser
 from importlib_resources import read_text
-from prompt_toolkit import PromptSession
 
 from storybro.generation.gpt2.generator import GPT2Generator
 from storybro.models.model import Model
@@ -16,7 +14,7 @@ from storybro.play.block_formatter import BlockFormatter
 from storybro.play.settings import PlayerSettings
 from storybro.stories.block import Block
 from storybro.stories.story import Story
-from storybro.story.utils import cut_trailing_sentence, parse_slice
+from storybro.utils import yes_no
 
 
 class NoBlockCommitter(Exception):
@@ -36,7 +34,6 @@ class Player(cmd2.Cmd):
         self.block_formatter: BlockFormatter = block_formatter
 
         self.generator: GPT2Generator = None
-        self.session: PromptSession = None
 
         self.remove_default_commands()
         self.setup_settables()
@@ -64,8 +61,10 @@ class Player(cmd2.Cmd):
         """Create pass-through properties on Player class for each setting in PlayerSettings"""
         self.settable = self.settings.settable()
         for attr in self.settable:
-            setattr(Player, attr, property(lambda self, attr=attr: getattr(self.settings, attr),
-                                           lambda self, value, attr=attr: setattr(self.settings, attr, value)))
+            if not hasattr(self, attr):
+                setattr(Player, attr, property(
+                    lambda self, attr=attr: getattr(self.settings, attr),
+                    lambda self, value, attr=attr: setattr(self.settings, attr, value)))
 
     def display_splash(self):
         text = read_text('storybro.data', 'splash.txt')
@@ -75,7 +74,6 @@ class Player(cmd2.Cmd):
     def run(self):
         self.display_splash()
         self.generator = self.setup_generator(self.model)
-        self.session = PromptSession()
 
         if self.story.blocks:
             self.poutput(self.block_formatter.render_story(self.story))
@@ -146,12 +144,16 @@ class Player(cmd2.Cmd):
         return f"{icon}{pin} {index_label}: {text}"
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_list(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
@@ -161,12 +163,16 @@ class Player(cmd2.Cmd):
                 self.poutput(block_line)
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_delete(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
@@ -176,19 +182,23 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Delete these {len(filtered)} blocks?" if len(filtered) > 1 else "Delete this block?"
-        if click.confirm(message):
+        if yes_no(message):
             for block in filtered:
                 self.story.blocks.remove(block)
 
             self.poutput("Done.")
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_pin(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
@@ -201,19 +211,23 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Pin these {len(filtered)} blocks?" if len(filtered) > 1 else "Pin this block?"
-        if click.confirm(message):
+        if yes_no(message):
             for block in filtered:
                 block.attrs['pinned'] = True
 
             self.poutput("Done.")
 
     argparser = argparse.ArgumentParser()
+    argparser.add_argument('indices', nargs='*', default=None, type=int)
     argparser.add_argument('-r', '--range', help="list the blocks in range", default=None, required=False)
     argparser.add_argument('-l', '--last_n', help="list the last n blocks", type=int, default=0, required=False)
     argparser.add_argument('-f', '--first_n', help="list the first n blocks", type=int, default=0, required=False)
     @with_argparser(argparser)
     def do_unpin(self, args):
-        filtered = self.story.filter_blocks(args.first_n or None, args.last_n or None, args.range)
+        filtered = self.story.filter_blocks(args.indices or None,
+                                            args.first_n or None,
+                                            args.last_n or None,
+                                            args.range)
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
@@ -226,7 +240,7 @@ class Player(cmd2.Cmd):
             self.poutput(f"{prefix}{block_line}")
 
         message = f"Unpin these {len(filtered)} blocks?" if len(filtered) > 1 else "Unpin this block?"
-        if click.confirm(message):
+        if yes_no(message):
             for block in filtered:
                 del block.attrs['pinned']
 
@@ -259,4 +273,3 @@ class Player(cmd2.Cmd):
         self.poutput(f" - Pinned: {pinned}")
         self.poutput(f" - Words: {total_words}")
         self.poutput(f" - Characters: {total_characters}")
-

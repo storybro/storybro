@@ -42,8 +42,12 @@ class Story:
         story.blocks = [Block.from_data(d) for d in data["blocks"]]
         return story
 
-    def filter_blocks(self, first_n=None, last_n=None, range=None):
+    def filter_blocks(self, indices=None, first_n=None, last_n=None, range=None):
         filtered = set([])
+
+        if isinstance(indices, list):
+            for index in indices:
+                filtered.add(self.blocks[index])
 
         if range and ":" in range:
             slice_obj: slice = parse_slice(range, bump_stop=True)
@@ -55,7 +59,7 @@ class Story:
         if first_n:
             filtered = filtered | set(self.blocks[:first_n])
 
-        if not range and not last_n and not first_n:
+        if not indices and not range and not last_n and not first_n:
             filtered = self.blocks
 
         return filtered
