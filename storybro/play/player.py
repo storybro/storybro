@@ -86,7 +86,7 @@ class Player(cmd2.Cmd):
         if line == "eof":
             line = "quit"
         elif line.startswith("!"):
-            line = f"raw {line}"
+            line = f"raw {line[1:]}"
         elif not line.startswith("/"):
             line = f"commit {line}"
         else:
