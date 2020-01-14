@@ -10,10 +10,13 @@ class ModelRegistry:
         self.models = self.fetch(url)
 
     def fetch(self, url):
-        response = urllib.request.urlopen(url)
-        data = response.read()
-        text = data.decode('utf-8')
-        return json.loads(text)
+        try:
+            response = urllib.request.urlopen(url)
+            data = response.read()
+            text = data.decode('utf-8')
+            return json.loads(text)
+        except:
+            return json.loads("{}")
 
     def refresh(self):
         self.models = self.fetch(self.url)
