@@ -11,3 +11,5 @@ def list(config):
     for key in keys:
         bullet = "-" if key not in installed else "*"
         print(f"{bullet} {key}")
+    if not available:
+        print("No remote models found (are you connected to the internet?)")
