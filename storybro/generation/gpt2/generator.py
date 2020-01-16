@@ -38,7 +38,7 @@ class GPT2Generator:
         config.gpu_options.allow_growth = True
         self.sess = tf.compat.v1.Session(config=config)
 
-        self.context = tf.placeholder(tf.int32, [self.batch_size, None])
+        self.context = tf.compat.v1.placeholder(tf.int32, [self.batch_size, None])
         # np.random.seed(seed)
         # tf.set_random_seed(seed)
         self.output = sample.sample_sequence(
@@ -51,7 +51,7 @@ class GPT2Generator:
             top_p=top_p,
         )
 
-        saver = tf.train.Saver()
+        saver = tf.compat.v1.train.Saver()
         ckpt = tf.train.latest_checkpoint(self.model.root_path)
         saver.restore(self.sess, ckpt)
 

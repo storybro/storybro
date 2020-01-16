@@ -11,14 +11,14 @@ def default_hparams():
 def shape_list(x):
     """Deal with dynamic shape in tensorflow cleanly."""
     static = x.shape.as_list()
-    dynamic = tf.shape(x)
+    dynamic = tf.shape(input=x)
     return [dynamic[i] if s is None else s for i, s in enumerate(static)]
 
 
 def softmax(x, axis=-1):
-    x = x - tf.reduce_max(x, axis=axis, keepdims=True)
+    x = x - tf.reduce_max(input_tensor=x, axis=axis, keepdims=True)
     ex = tf.exp(x)
-    return ex / tf.reduce_sum(ex, axis=axis, keepdims=True)
+    return ex / tf.reduce_sum(input_tensor=ex, axis=axis, keepdims=True)
 
 
 def gelu(x):
@@ -27,13 +27,23 @@ def gelu(x):
 
 def norm(x, scope, *, axis=-1, epsilon=1e-5):
     """Normalize to mean = 0, std = 1, then do a diagonal affine transform."""
-    with tf.variable_scope(scope):
+    with tf.compat.v1.variable_scope(scope):
         n_state = x.shape[-1].value
-        g = tf.get_variable("g", [n_state], initializer=tf.constant_initializer(1))
-        b = tf.get_variable("b", [n_state], initializer=tf.constant_initializer(0))
-        u = tf.reduce_mean(x, axis=axis, keepdims=True)
-        s = tf.reduce_mean(tf.square(x - u), axis=axis, keepdims=True)
-        x = (x - u) * tf.rsqrt(s + epsilon)
+        g = tf.compat.v1.get_variable(
+            "g",
+            [n_state],
+            initializer=tf.compat.v1.constant_initializer(1),
+            use_resource=False,
+        )
+        b = tf.compat.v1.get_variable(
+            "b",
+            [n_state],
+            initializer=tf.compat.v1.constant_initializer(0),
+            use_resource=False,
+        )
+        u = tf.reduce_mean(input_tensor=x, axis=axis, keepdims=True)
+        s = tf.reduce_mean(input_tensor=tf.square(x - u), axis=axis, keepdims=True)
+        x = (x - u) * tf.math.rsqrt(s + epsilon)
         x = x * g + b
         return x
 
@@ -51,14 +61,14 @@ def merge_states(x):
 
 
 def conv1d(x, scope, nf, *, w_init_stdev=0.02):
-    with tf.variable_scope(scope):
+    with tf.compat.v1.variable_scope(scope):
         *start, nx = shape_list(x)
-        w = tf.get_variable(
+        w = tf.compat.v1.get_variable(
             "w",
             [1, nx, nf],
-            initializer=tf.random_normal_initializer(stddev=w_init_stdev),
+            initializer=tf.compat.v1.random_normal_initializer(stddev=w_init_stdev),
         )
-        b = tf.get_variable("b", [nf], initializer=tf.constant_initializer(0))
+        b = tf.compat.v1.get_variable("b", [nf], initializer=tf.compat.v1.constant_initializer(0))
         c = tf.reshape(
             tf.matmul(tf.reshape(x, [-1, nx]), tf.reshape(w, [-1, nf])) + b,
             start + [nf],
@@ -87,11 +97,11 @@ def attn(x, scope, n_state, *, past, hparams):
 
     def split_heads(x):
         # From [batch, sequence, features] to [batch, heads, sequence, features]
-        return tf.transpose(split_states(x, hparams.n_head), [0, 2, 1, 3])
+        return tf.transpose(a=split_states(x, hparams.n_head), perm=[0, 2, 1, 3])
 
     def merge_heads(x):
         # Reverse of split_heads
-        return merge_states(tf.transpose(x, [0, 2, 1, 3]))
+        return merge_states(tf.transpose(a=x, perm=[0, 2, 1, 3]))
 
     def mask_attn_weights(w):
         # w has shape [batch, heads, dst_sequence, src_sequence], where information flows from src to dst.
@@ -104,14 +114,14 @@ def attn(x, scope, n_state, *, past, hparams):
     def multihead_attn(q, k, v):
         # q, k, v have shape [batch, heads, sequence, features]
         w = tf.matmul(q, k, transpose_b=True)
-        w = w * tf.rsqrt(tf.cast(v.shape[-1].value, w.dtype))
+        w = w * tf.math.rsqrt(tf.cast(v.shape[-1].value, w.dtype))
 
         w = mask_attn_weights(w)
         w = softmax(w)
         a = tf.matmul(w, v)
         return a
 
-    with tf.variable_scope(scope):
+    with tf.compat.v1.variable_scope(scope):
         c = conv1d(x, "c_attn", n_state * 3)
         q, k, v = map(split_heads, tf.split(c, 3, axis=2))
         present = tf.stack([k, v], axis=1)
@@ -126,7 +136,7 @@ def attn(x, scope, n_state, *, past, hparams):
 
 
 def mlp(x, scope, n_state, *, hparams):
-    with tf.variable_scope(scope):
+    with tf.compat.v1.variable_scope(scope):
         nx = x.shape[-1].value
         h = gelu(conv1d(x, "c_fc", n_state))
         h2 = conv1d(h, "c_proj", nx)
@@ -134,7 +144,7 @@ def mlp(x, scope, n_state, *, hparams):
 
 
 def block(x, scope, *, past, hparams):
-    with tf.variable_scope(scope):
+    with tf.compat.v1.variable_scope(scope):
         nx = x.shape[-1].value
         a, present = attn(norm(x, "ln_1"), "attn", nx, past=past, hparams=hparams)
         x = x + a
@@ -156,33 +166,35 @@ def past_shape(*, hparams, batch_size=None, sequence=None):
 
 def expand_tile(value, size):
     """Add a new axis of given size."""
-    value = tf.convert_to_tensor(value, name="value")
+    value = tf.convert_to_tensor(value=value, name="value")
     ndims = value.shape.ndims
     return tf.tile(tf.expand_dims(value, axis=0), [size] + [1] * ndims)
 
 
 def positions_for(tokens, past_length):
-    batch_size = tf.shape(tokens)[0]
-    nsteps = tf.shape(tokens)[1]
+    batch_size = tf.shape(input=tokens)[0]
+    nsteps = tf.shape(input=tokens)[1]
     return expand_tile(past_length + tf.range(nsteps), batch_size)
 
 
 def model(hparams, X, past=None, scope="model", reuse=False):
-    with tf.variable_scope(scope, reuse=reuse):
+    with tf.compat.v1.variable_scope(scope, reuse=reuse):
         results = {}
         batch, sequence = shape_list(X)
 
-        wpe = tf.get_variable(
+        wpe = tf.compat.v1.get_variable(
             "wpe",
             [hparams.n_ctx, hparams.n_embd],
-            initializer=tf.random_normal_initializer(stddev=0.01),
+            initializer=tf.compat.v1.random_normal_initializer(stddev=0.01),
+            use_resource=False,
         )
-        wte = tf.get_variable(
+        wte = tf.compat.v1.get_variable(
             "wte",
             [hparams.n_vocab, hparams.n_embd],
-            initializer=tf.random_normal_initializer(stddev=0.02),
+            initializer=tf.compat.v1.random_normal_initializer(stddev=0.02),
+            use_resource=False,
         )
-        past_length = 0 if past is None else tf.shape(past)[-2]
+        past_length = 0 if past is None else tf.shape(input=past)[-2]
         h = tf.gather(wte, X) + tf.gather(wpe, positions_for(X, past_length))
 
         # Transformer

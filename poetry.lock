@@ -727,7 +727,7 @@ description = "TensorFlow is an open source machine learning framework for every
 name = "tensorflow"
 optional = false
 python-versions = "*"
-version = "1.15.0"
+version = "2.1.0"
 
 [package.dependencies]
 absl-py = ">=0.7.0"
@@ -744,7 +744,7 @@ opt-einsum = ">=2.3.2"
 protobuf = ">=3.6.1"
 six = ">=1.10.0"
 tensorboard = ">=1.15.0,<1.16.0"
-tensorflow-estimator = "1.15.1"
+tensorflow-estimator = "2.1.0"
 termcolor = ">=1.1.0"
 wheel = "*"
 wrapt = ">=1.11.1"

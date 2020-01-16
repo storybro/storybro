@@ -7,7 +7,7 @@ workdir /storybro
 
 env POETRY_VIRTUALENVS_CREATE=false
 
-run pip install poetry tensorflow==1.15
+run pip install poetry tensorflow==2.1.0
 
 run touch README.md
 copy pyproject.toml pyproject.toml
