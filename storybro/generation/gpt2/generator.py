@@ -5,6 +5,7 @@ import warnings
 import numpy as np
 
 import tensorflow as tf
+from tensorboard.plugins.hparams import api as hp
 
 from storybro.generation.gpt2 import model, encoder, sample
 from storybro.story.utils import cut_trailing_sentence, remove_profanity
@@ -31,13 +32,14 @@ class GPT2Generator:
         self.enc = encoder.get_encoder(self.model.root_path)
         hparams = model.default_hparams()
         with open(os.path.join(self.model.root_path, "hparams.json")) as f:
-            hparams.override_from_dict(json.load(f))
+            hparams = json.load(f)
         seed = np.random.randint(0, 100000)
 
         config = tf.compat.v1.ConfigProto()
         config.gpu_options.allow_growth = True
         self.sess = tf.compat.v1.Session(config=config)
 
+        tf.compat.v1.disable_eager_execution()
         self.context = tf.compat.v1.placeholder(tf.int32, [self.batch_size, None])
         # np.random.seed(seed)
         # tf.set_random_seed(seed)

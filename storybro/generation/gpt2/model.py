@@ -1,11 +1,15 @@
 import numpy as np
 
 import tensorflow as tf
-from tensorflow.contrib.training import HParams
 
 
 def default_hparams():
-    return HParams(n_vocab=0, n_ctx=1024, n_embd=768, n_head=12, n_layer=12,)
+    return [
+        "n_vocab", 0,
+        "n_ctx", 1024,
+        "n_embd", 12,
+        "n_layer", 12,
+    ]
 
 
 def shape_list(x):
@@ -28,7 +32,7 @@ def gelu(x):
 def norm(x, scope, *, axis=-1, epsilon=1e-5):
     """Normalize to mean = 0, std = 1, then do a diagonal affine transform."""
     with tf.compat.v1.variable_scope(scope):
-        n_state = x.shape[-1].value
+        n_state = x.shape[-1]
         g = tf.compat.v1.get_variable(
             "g",
             [n_state],
@@ -89,7 +93,7 @@ def attention_mask(nd, ns, *, dtype):
 
 def attn(x, scope, n_state, *, past, hparams):
     assert x.shape.ndims == 3  # Should be [batch, sequence, features]
-    assert n_state % hparams.n_head == 0
+    assert n_state % hparams["n_head"] == 0
     if past is not None:
         assert (
             past.shape.ndims == 5
@@ -97,7 +101,7 @@ def attn(x, scope, n_state, *, past, hparams):
 
     def split_heads(x):
         # From [batch, sequence, features] to [batch, heads, sequence, features]
-        return tf.transpose(a=split_states(x, hparams.n_head), perm=[0, 2, 1, 3])
+        return tf.transpose(a=split_states(x, hparams["n_head"]), perm=[0, 2, 1, 3])
 
     def merge_heads(x):
         # Reverse of split_heads
@@ -114,7 +118,7 @@ def attn(x, scope, n_state, *, past, hparams):
     def multihead_attn(q, k, v):
         # q, k, v have shape [batch, heads, sequence, features]
         w = tf.matmul(q, k, transpose_b=True)
-        w = w * tf.math.rsqrt(tf.cast(v.shape[-1].value, w.dtype))
+        w = w * tf.math.rsqrt(tf.cast(v.shape[-1], w.dtype))
 
         w = mask_attn_weights(w)
         w = softmax(w)
@@ -137,7 +141,7 @@ def attn(x, scope, n_state, *, past, hparams):
 
 def mlp(x, scope, n_state, *, hparams):
     with tf.compat.v1.variable_scope(scope):
-        nx = x.shape[-1].value
+        nx = x.shape[-1]
         h = gelu(conv1d(x, "c_fc", n_state))
         h2 = conv1d(h, "c_proj", nx)
         return h2
@@ -145,7 +149,7 @@ def mlp(x, scope, n_state, *, hparams):
 
 def block(x, scope, *, past, hparams):
     with tf.compat.v1.variable_scope(scope):
-        nx = x.shape[-1].value
+        nx = x.shape[-1]
         a, present = attn(norm(x, "ln_1"), "attn", nx, past=past, hparams=hparams)
         x = x + a
         m = mlp(norm(x, "ln_2"), "mlp", nx * 4, hparams=hparams)
@@ -156,11 +160,11 @@ def block(x, scope, *, past, hparams):
 def past_shape(*, hparams, batch_size=None, sequence=None):
     return [
         batch_size,
-        hparams.n_layer,
+        hparams["n_layer"],
         2,
-        hparams.n_head,
+        hparams["n_head"],
         sequence,
-        hparams.n_embd // hparams.n_head,
+        hparams["n_embd"] // hparams["n_head"],
     ]
 
 
@@ -184,13 +188,13 @@ def model(hparams, X, past=None, scope="model", reuse=False):
 
         wpe = tf.compat.v1.get_variable(
             "wpe",
-            [hparams.n_ctx, hparams.n_embd],
+            [hparams["n_ctx"], hparams["n_embd"]],
             initializer=tf.compat.v1.random_normal_initializer(stddev=0.01),
             use_resource=False,
         )
         wte = tf.compat.v1.get_variable(
             "wte",
-            [hparams.n_vocab, hparams.n_embd],
+            [hparams["n_vocab"], hparams["n_embd"]],
             initializer=tf.compat.v1.random_normal_initializer(stddev=0.02),
             use_resource=False,
         )
@@ -200,9 +204,9 @@ def model(hparams, X, past=None, scope="model", reuse=False):
         # Transformer
         presents = []
         pasts = (
-            tf.unstack(past, axis=1) if past is not None else [None] * hparams.n_layer
+            tf.unstack(past, axis=1) if past is not None else [None] * hparams["n_layer"]
         )
-        assert len(pasts) == hparams.n_layer
+        assert len(pasts) == hparams["n_layer"]
         for layer, past in enumerate(pasts):
             h, present = block(h, "h%d" % layer, past=past, hparams=hparams)
             presents.append(present)
@@ -210,8 +214,8 @@ def model(hparams, X, past=None, scope="model", reuse=False):
         h = norm(h, "ln_f")
 
         # Language model loss.  Do tokens <n predict token n?
-        h_flat = tf.reshape(h, [batch * sequence, hparams.n_embd])
+        h_flat = tf.reshape(h, [batch * sequence, hparams["n_embd"]])
         logits = tf.matmul(h_flat, wte, transpose_b=True)
-        logits = tf.reshape(logits, [batch, sequence, hparams.n_vocab])
+        logits = tf.reshape(logits, [batch, sequence, hparams["n_vocab"]])
         results["logits"] = logits
         return results
