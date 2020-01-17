@@ -90,7 +90,13 @@ class PromptCreator(cmd2.Cmd):
             self.poutput(f"- {character}")
 
     def do_custom(self, input_text: str):
+        if not self.current_prompt == "":
+            self.poutput("This will reset the current prompt.")
+            if not self.read_input("To confirm, type 'yes': ") == "yes":
+                return
+
         self.current_prompt = input_text
+        self.prompt_rolled = ""
         self.do_print()
 
     def do_print(self, args = ""):
@@ -139,7 +145,7 @@ class PromptCreator(cmd2.Cmd):
             self.character = character
             self.roll_character()
             self.do_print()
-            self.poutput(f"You may want to name your character with /name")
+            self.poutput(f"You may want to name your character with /name. Don't like the start? Try /regen")
 
     def do_random(self, args):
         self.poutput("This will reset all customisations.")
@@ -155,10 +161,18 @@ class PromptCreator(cmd2.Cmd):
         self.roll_character()
         self.do_print()
 
-    def do_roll(self, args):
-        self.poutput("Are you sure you want to reroll?")
+    def do_regen(self, args):
+        self.poutput("Are you sure you want to regen the character?")
         if not self.read_input("To confirm, type 'yes': ") == "yes":
             return
 
         self.roll_character()
+        self.do_print()
+
+    def do_reroll(self, args):
+        self.poutput("Are you sure you want to reset tracery replacements (only useful in custom prompts)?")
+        if not self.read_input("To confirm, type 'yes': ") == "yes":
+            return
+
+        self.prompt_rolled = ""
         self.do_print()

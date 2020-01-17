@@ -15,7 +15,7 @@ from storybro.play.settings import PlayerSettings
 from storybro.stories.block import Block
 from storybro.stories.story import Story
 from storybro.utils import yes_no
-
+from storybro.story.utils import cut_trailing_sentence
 
 class NoBlockCommitter(Exception):
     message = "No BlockCommitter set for Player."
@@ -76,6 +76,12 @@ class Player(cmd2.Cmd):
         self.generator = self.setup_generator(self.model)
 
         if self.story.blocks:
+            initial: Block = self.story.blocks[0]
+            if (len(self.story.blocks) == 1 and initial.attrs['should_complete']):
+                completed: str = self.generator.generate_raw(initial.text)
+                initial.text += cut_trailing_sentence(completed)
+                self.story.blocks[0] = initial
+
             self.poutput(self.block_formatter.render_story(self.story))
 
         sys.exit(self.cmdloop())
