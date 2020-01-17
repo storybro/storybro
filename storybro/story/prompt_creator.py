@@ -21,8 +21,8 @@ class PromptCreator(cmd2.Cmd):
 
     def get_prompt(self):
         self.poutput("Welcome to the Prompt Creator. To begin, use /random to randomise the prompt or use /setting to pick a setting. ")
-
         self.poutput("Use /print to print the current prompt if one exists, or just type text to create a custom prompt.")
+        self.poutput("Once finished, use /quit or Ctrl+D to exit and start a story with the current prompt.")
 
         self.cmdloop()
 
