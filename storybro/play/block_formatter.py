@@ -54,7 +54,19 @@ class BlockFormatter:
         return Block(block.text, block.attrs.copy())
 
     def process_story(self, story: Story) -> str:
-        return "".join([self.process_block(b).text for b in story.blocks])
+        reversedList = story.blocks[::-1]
+
+        story = []
+        count: int = 0
+        for block in reversedList:
+            if 'pinned' in block.attrs and block.attrs['pinned']:
+                story.append(block)
+            elif count < self.settings.memory or self.settings.memory == -1:
+                count += 1
+                story.append(block)
+        story.reverse()
+
+        return "".join([self.process_block(b).text for b in story])
 
     # before sending to user
 
