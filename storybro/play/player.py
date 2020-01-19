@@ -234,6 +234,7 @@ class Player(cmd2.Cmd):
                                             args.first_n or None,
                                             args.last_n or None,
                                             args.range)
+        filtered = list(filter(lambda b: 'pinned' in b.attrs, filtered))
         n_blocks = len(self.story.blocks)
         index_width = len(f"{n_blocks}")
 
