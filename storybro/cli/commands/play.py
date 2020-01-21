@@ -6,6 +6,7 @@ import click
 from storybro.play.block_formatter import BlockFormatter
 from storybro.play.player import Player
 from storybro.play.settings import PlayerSettings
+from storybro.story.prompt_creator import PromptCreator
 from storybro.utils import yes_no
 
 from storybro.story.prompt_creator import PromptCreator
