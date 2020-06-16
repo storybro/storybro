@@ -2,7 +2,7 @@
 
 with pkgs;
 
-poetry2nix.mkPoetryEnv {
+poetry2nix.mkPoetryApplication {
   projectDir = ./.;
   overrides = poetry2nix.overrides.withDefaults (self: super: {
     gsutil = super.gsutil.overridePythonAttrs
